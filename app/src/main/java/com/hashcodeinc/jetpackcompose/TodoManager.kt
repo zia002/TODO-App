@@ -12,7 +12,7 @@ import androidx.room.Query
 import androidx.room.RoomDatabase
 
 //=== first we need to create the entities of the DB ====//
-//@Entity
+@Entity
 data class Todo(
     @PrimaryKey(autoGenerate = true)
     var id:Int=0,
@@ -23,27 +23,27 @@ data class Todo(
    * each DAM have a query to get or set data
    *
 */
-//@Dao
-//interface TodoDAO{
-//    @Query("SELECT * FROM TODO")
-//    fun getAllToDo():LiveData<List<Todo>>
-//    @Insert
-//    fun addTodo(todo: Todo)
-//    @Query("DELETE FROM TODO where id=:id")
-//    fun deleteTodo(id:Int)
-//}
+@Dao
+interface TodoDAO{
+    @Query("SELECT * FROM TODO")
+    fun getAllToDo():LiveData<List<Todo>>
+    @Insert
+    fun addTodo(todo: Todo)
+    @Query("DELETE FROM TODO where id=:id")
+    fun deleteTodo(id:Int)
+}
 
 /*
    *Crete now the DataBase
    *we need to give a name to the DB
    *need to get the DAO
 */
-//@Database(entities = [Todo::class], version = 1)
-//abstract class TodoDatabase: RoomDatabase() {
-//    companion object{
-//        const val NAME="TODO"
-//    }
-//    abstract fun getDAO():TodoDAO
-//
-//}
+@Database(entities = [Todo::class], version = 1)
+abstract class TodoDatabase: RoomDatabase() {
+    companion object{
+        const val NAME="TODO"
+    }
+    abstract fun getDAO():TodoDAO
+
+}
 

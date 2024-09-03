@@ -34,6 +34,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.ai.client.generativeai.type.content
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 @Composable
 fun ToDoListPage(viewModel: TodoViewModel){
     val toDoDataList by viewModel.todoList.observeAsState()
@@ -46,9 +50,10 @@ fun ToDoListPage(viewModel: TodoViewModel){
                 input=it
             })
             IconButton(onClick = {
-                viewModel.addTodo(Todo(0,input))
-                input=""
-                                 }, modifier = Modifier.border(1.dp,Color.Black)) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    viewModel.addTodo(Todo(0, input))
+                    input=""
+                }}, modifier = Modifier.border(1.dp,Color.Black)) {
                 Icon(painter = painterResource(id = R.drawable.add), contentDescription ="Add todo", tint = Color.Green )
             }
 
@@ -75,7 +80,6 @@ fun ShowToDo(item:Todo,onDelete:()->Unit){
             1.dp, Color.Black, RoundedCornerShape(5.dp)
         )
     ) {
-        Text(text = item.id.toString(), modifier = Modifier.padding(4.dp,0.dp,0.dp,0.dp))
         Row(modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp, 0.dp, 0.dp, 0.dp),
